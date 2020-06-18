@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Student;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-   public function index() {
-    
-    $students = Student::all();
-    
+    public function index()
+    {
+        $students = Student::all();
+        
 
-    return view('welcome', compact('students'));
-   } 
+        return view('home', compact('students'));
+    }
 }
