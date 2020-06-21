@@ -10,9 +10,11 @@
 <body>
 
     <header class="mb-5">
-        <nav class="navbar navbar-expand navbar-light bg-light">
-            <div class="nav-brand">Boolean</div>
-            <ul class="navbar-nav m1-auto">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="navbar-brand">Boolean</div>
+
+            <div class="ml-auto">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                      <li class="nav-item">
                     <a href="{{ route('home') }}" class="nav-link">Home</a>
                      </li>
@@ -23,6 +25,7 @@
                     <a href="{{ route('classrooms.create') }}" class="nav-link">Add classroom</a>
                      </li>
             </ul>
+        </div>
         </nav>
 
     </header>

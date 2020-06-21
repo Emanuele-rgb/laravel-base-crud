@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Classroom;
+use Illuminate\Validation\Rule;
 
 class ClassroomController extends Controller
 {
@@ -39,14 +40,13 @@ class ClassroomController extends Controller
     {
         $data = $request->all();
 
-        $request->validate([
-            'name' => 'required|unique:classrooms|max:20',
-            'description' => 'required'
-        ]);
+        $request->validate($this->validationRules());
 
         $classroom = new Classroom();
-        $classroom->name= $data['name'];
-        $classroom->description = $data['description'];
+     //   $classroom->name= $data['name'];
+       // $classroom->description = $data['description'];
+        $classroom->fill($data);
+
         $saved = $classroom->save();
         
         if($saved){
@@ -72,9 +72,10 @@ class ClassroomController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Classroom $classroom)
     {
-        //
+        //$classroom = Classroom::find($id);
+        return view('classrooms.edit', compact('classroom'));
     }
 
     /**
@@ -84,9 +85,18 @@ class ClassroomController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Classroom $classroom)
     {
-        //
+        $data = $request->all();
+        
+        $request->validate($this->validationRules($classroom->id));
+
+        $updated = $classroom->update($data);
+
+        if($updated){
+            return redirect()->route('classrooms.show', $classroom->id);
+        }
+
     }
 
     /**
@@ -95,8 +105,25 @@ class ClassroomController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Classroom $classroom)
+    {   
+        $ref = $classroom->name;
+        $deleted = $classroom->delete();
+
+        if($deleted){
+            return redirect()->route('classrooms.index')->with('deleted', $ref);
+        }
+    }
+
+    private function validationRules($id = null)
     {
-        //
+        return [
+            'name' => [
+                'required',
+                'max:20',
+                Rule::unique('classrooms')->ignore($id)
+            ],
+            'description' => 'required'
+        ];
     }
 }

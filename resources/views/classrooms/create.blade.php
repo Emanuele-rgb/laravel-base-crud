@@ -21,10 +21,10 @@
         @method('POST')
 
         <div class="form-group">
-            <input type="text" class="form-control" name="name" placeholder="Class name">
+        <input type="text" class="form-control" value="{{ old('name')}}" name="name" placeholder="Class name">
         </div>
         <div class="form-group">
-            <input type="text" class="form-control" name="description" placeholder="Description">
+            <input type="text" class="form-control" value="{{ old('description')}}" name="description" placeholder="Description">
         </div>
         <input class="btn btn-primary" type="submit" value="Create">
     </form>
